@@ -13,4 +13,5 @@ app.use('/auth', authRoutes);
 app.get('/', (req, res) => {
     res.send('✅ API working on Vercel');
   });
-app.listen(3000);
+  
+module.exports = app
