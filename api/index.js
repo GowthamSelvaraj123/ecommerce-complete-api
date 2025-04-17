@@ -10,3 +10,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/auth', authRoutes);
+app.get('/', (req, res) => {
+    res.send('✅ API working on Vercel');
+  });
