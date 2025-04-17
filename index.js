@@ -3,8 +3,8 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const connectDB = require('../config/db');
-const authRoutes = require('../routes/authRoutes')
+const connectDB = require('./config/db');
+const authRoutes = require('./routes/authRoutes')
 connectDB();
 app.use(cors());
 app.use(bodyParser.json());
@@ -13,6 +13,4 @@ app.use('/auth', authRoutes);
 app.get('/', (req, res) => {
     res.send('✅ API working on Vercel');
   });
-
-  const serverless = require('serverless-http');
-  module.exports = serverless(app);
+app.listen(3000);
