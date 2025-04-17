@@ -13,3 +13,6 @@ app.use('/auth', authRoutes);
 app.get('/', (req, res) => {
     res.send('✅ API working on Vercel');
   });
+
+  const serverless = require('serverless-http');
+  module.exports = serverless(app);
