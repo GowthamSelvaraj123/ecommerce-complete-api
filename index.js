@@ -14,4 +14,4 @@ app.get('/', (req, res) => {
     res.send('✅ API working on Vercel');
   });
   
-module.exports = app
+app.listen(3000);
