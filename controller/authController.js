@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 
+require('dotenv').config();
+const jwtSecret = process.env.JWT_SECRET; 
 const welcomeController = (req, res) => {
     try
     {
@@ -56,9 +58,8 @@ const loginController = async (req, res) => {
         email: checkUser.email,
         role: checkUser.role
     };
-    const token = jwt.sign(payload, 'color@123', {
-        expiresIn: '1h'
-    });
+    const token = jwt.sign(payload, jwtSecret , { expiresIn: '1h' });
+
     res.status(200).json({
         message: "Login successful",
         token
