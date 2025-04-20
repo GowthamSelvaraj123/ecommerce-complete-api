@@ -11,7 +11,7 @@ const addOrder = async (req, res) => {
         }
         const newOrder = new Order({user, items, totalAmount, status, shippingAddress, placedAt});
         await newOrder.save();
-        res.status(200).json({message:"Add Order Successfully"});
+        res.status(200).json({message:"Order Added Successfully"});
     }
     catch(err)
     {
@@ -23,10 +23,21 @@ const addOrder = async (req, res) => {
 const editOrder = async (req, res) => {
     try
     {
-        res.status(200).json({message:"Add Order Successfully"});
+        const id = req.params.id || req.query.id || req.body.id;
+        if (!mongoose.isValidObjectId(id)) {
+                    return res.status(400).json({ message: "Invalid Product ID" });
+        }
+        const order = req.body;
+        const updateOrder = await Order.findByIdAndUpdate(id, order, {new:true});
+        if(!updateOrder)
+        {
+            return res.status(200).json({message:"Order not found"});
+        }
+        res.status(200).json({message:"Update Order Successfully", data:updateOrder});
     }
     catch(err)
     {
+        console.log(err);
         res.status(404).json({message:"Internal Server Error"});
     }
 }
@@ -34,10 +45,21 @@ const editOrder = async (req, res) => {
 const deleteOrder = async (req, res) => {
     try
     {
-        res.status(200).json({message:"Add Order Successfully"});
+        const id = req.params.id || req.query.id || req.body.id;
+        if(!mongoose.isValidObjectId(id))
+        {
+            return res.status(200).json({message:"Invalid Product ID"});
+        }
+        const deleteOrder = await Order.findByIdAndDelete(id);
+        if(!deleteOrder)
+        {
+            return res.status(200).json({message:"Order not found"})
+        }
+        res.status(200).json({message:"Order Deleted Successfully"});
     }
     catch(err)
     {
+        console.log(err);
         res.status(404).json({message:"Internal Server Error"});
     }
 }
@@ -45,10 +67,12 @@ const deleteOrder = async (req, res) => {
 const getOrder = async (req, res) => {
     try
     {
-        res.status(200).json({message:"Add Order Successfully"});
+        const orders = await Order.find().populate('user', 'name email').populate('items.product', 'name price');;
+        res.status(200).json({message:"List Order Successfully", data:orders});
     }
     catch(err)
     {
+        console.log(err);
         res.status(404).json({message:"Internal Server Error"});
     }
 }
