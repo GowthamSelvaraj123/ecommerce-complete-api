@@ -8,7 +8,8 @@ const authRoutes = require('./routes/authRoutes')
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const orderRoutes = require('./routes/orderRoutes');
-const cartRoutes = require('./routes/cartRoutes')
+const cartRoutes = require('./routes/cartRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 require('dotenv').config;
 connectDB();
 app.use(cors());
@@ -19,6 +20,7 @@ app.use('/admin/products/', productRoutes);
 app.use('/admin/categories/', categoryRoutes);
 app.use('/admin/orders/', orderRoutes);
 app.use('/admin/cart/', cartRoutes);
+app.use('/admin/payment/', paymentRoutes);
 app.get('/', (req, res) => {
     res.send('✅ API working on Vercel');
   });
