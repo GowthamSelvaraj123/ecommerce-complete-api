@@ -20,11 +20,11 @@ const registerController = async (req, res) => {
     {
     const {name, email, password} =  req.body;
     if (!name || !email || !password) {
-        return res.status(400).json({message:"All fields are required"});
+        return res.status(409).json({message:"All fields are required"});
     }
     const existingUser = await User.findOne({email});
     if(existingUser){
-        return res.status(400).json({message:"Already email available"});
+        return res.status(409).json({message:"Already email available"});
     }
     const hashPassword = await bcrypt.hash(password, 10);
     const newUser = new User({name, email, password:hashPassword});
@@ -43,11 +43,11 @@ const loginController = async (req, res) => {
     const {email, password} = req.body;
     if(!email || !password)
     {
-        return res.status(400).json({ message: "Email and password are required" });
+        return res.status(409).json({ message: "Email and password are required" });
     }
     const checkUser = await User.findOne({email});
     if (!checkUser) {
-        return res.status(404).send("User not found");
+        return res.status(409).send("User not found");
     }
     const isMatch = await bcrypt.compare(password, checkUser.password);
     if (!isMatch) {
@@ -78,11 +78,11 @@ const resetController =  async (req, res) => {
     const {email, password} = req.body;
     if(!email || !password)
     {
-        return res.status(400).json({ message: "Email and new password are required" });                                                                                                    
+        return res.status(409).json({ message: "Email and new password are required" });                                                                                                    
     }
         const checkUser = await User.findOne({email});
         if (!checkUser) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(409).json({ message: "User not found" });
         }
             checkUser.password = await bcrypt.hash(password, 10);
             checkUser.save();
